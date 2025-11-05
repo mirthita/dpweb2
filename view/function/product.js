@@ -80,8 +80,8 @@ async function view_products() {
                             <td>${producto.detalle}</td>
                             <td>${producto.precio}</td>
                             <td>${producto.stock}</td>
-                            <td>${producto.categoria}</td>
                             <td>${producto.proveedor}</td>
+                            <td>${producto.categoria}</td>
                             <td>${producto.fecha_vencimiento}</td>
                             
                             <td>

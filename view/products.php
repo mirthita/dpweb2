@@ -6,16 +6,16 @@
         <thead>
             <tr>
                 <th>Nro</th>
-                <th>Código</th>
+                <th>filipin                </th>
                 <th>Nombre</th>
                 <th>Detalle</th>
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Proveedor</th>
                 <th>Categoría</th>
-                <th>Proveedor</th>
                 <th>Fecha Vencimiento</th>
                 <th>Acciones</th>
+                
 
             </tr>
         </thead>
