@@ -209,6 +209,7 @@ async function cargar_proveedores() {
     document.getElementById("id_proveedor").innerHTML = contenido;
 }
 
+
 async function view_products_cards() {
     try {
         let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=ver_productos', {
