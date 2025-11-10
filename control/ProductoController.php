@@ -112,7 +112,7 @@ if ($tipo === "actualizar") {
             echo json_encode($arrResponse);
             exit;
         } else {
-            
+
             if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
                 //echo "no se envio la imagen";
                 $imagen = $producto->imagen;
@@ -164,8 +164,6 @@ if ($tipo === "actualizar") {
             exit;
         }
     }
+    
+
 }
-
-
-
-

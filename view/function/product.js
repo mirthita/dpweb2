@@ -143,7 +143,7 @@ async function actualizarProducto() {
         alert("Oooooops, ocurrio un error al actualizar, intentelo nuevamente");
         console.log(json.msg);
         return;
-    }else{
+    } else {
         alert(json.msg);
     }
 }
@@ -166,7 +166,7 @@ async function eliminar(id_producto) {
         alert("Oooooops, ocurrio un error al eliminar persona, intentelo mas tarde");
         console.log(json.msg);
         return;
-    }else{
+    } else {
         alert(json.msg);
         location.replace(base_url + 'products');
     }
@@ -212,55 +212,166 @@ async function cargar_proveedores() {
 
 async function view_products_cards() {
     try {
+        console.log("Cargando productos en vista de cards...");
         let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=ver_productos', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
         });
+
         let json = await respuesta.json();
+        console.log("Datos recibidos:", json);
+
         let contenido = document.getElementById('content_products');
+        if (!contenido) {
+            console.error("❌ No se encontró el contenedor #content_productos");
+            return;
+        }
 
         contenido.innerHTML = '';
 
-        if (json.status) {
-            let contenedor = document.createElement('div');
-            contenedor.className = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3';
+        if (json.status && json.data.length > 0) {
+            let fila = document.createElement('div');
+            fila.className = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4';
 
             json.data.forEach(producto => {
-                // 🔹 Ruta correcta a tu carpeta de imágenes
-                let rutaImagen = producto.imagen && producto.imagen !== "" 
-                    ? base_url + "uploads/productos/" + producto.imagen 
-                    : base_url + "assets/img/no-image.png";
 
-                let card = document.createElement('div');
-                card.className = 'col';
-                card.innerHTML = `
-                    <div class="card h-100 shadow-sm">
-                        <img src="${rutaImagen}" class="card-img-top" alt="${producto.nombre}" style="height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
-                        <div class="card-body text-center">
-                            <h5 class="card-title text-primary">${producto.nombre}</h5>
-                            <p class="card-text">${producto.detalle}</p>
-                            <p class="fw-bold text-success">S/ ${parseFloat(producto.precio).toFixed(2)}</p>
-                            <p><span class="badge bg-secondary">Stock: ${producto.stock}</span></p>
-                            <p class="small text-muted">Categoría: ${producto.categoria}</p>
-                            <p class="small text-muted">Proveedor: ${producto.proveedor}</p>
-                            <p class="small">Vence: ${producto.fecha_vencimiento}</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-center gap-2">
-                            <!-- 🔹 Botones sin funcionalidad -->
-                            <button class="btn btn-primary btn-sm">Ver detalles</button>
-                            <button class="btn btn-success btn-sm">Añadir al carrito</button>
-                        </div>
-                    </div>
-                `;
-                contenedor.appendChild(card);
+                let rutaImagen;
+                if (producto.imagen && producto.imagen.startsWith('data:image')) {
+                    rutaImagen = producto.imagen;
+                } else if (producto.imagen && producto.imagen.trim() !== "") {
+                    rutaImagen = base_url + producto.imagen;
+                } else {
+                    rutaImagen = base_url + 'assets/img/no-image.png';
+                }
+
+
+                let col = document.createElement('div');
+                col.className = 'col';
+                col.setAttribute('data-producto-id', producto.id);
+
+                col.innerHTML = `
+                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                       <img src="${rutaImagen}" 
+             class="card-img-top img-fluid" 
+             alt="${producto.nombre}" 
+             style="height: 300px; width: 900px; object-fit: cover; transition: transform 0.3s ease;">
+        
+       <div class="card-body text-center bg-light rounded-4 shadow-sm py-4">
+    <h5 class="card-title fw-bold mb-3 text-dark">
+        ${producto.nombre}
+    </h5>
+    <p class="card-text small text-secondary mb-3">
+        ${producto.detalle}
+    </p>
+    <p class="fw-semibold fs-5 text-dark mb-3">
+        💰 S/ ${parseFloat(producto.precio).toFixed(2)}
+    </p>
+    <span class="badge bg-dark text-white mb-3 px-4 py-2 rounded-pill">
+        Stock: ${producto.stock}
+    </span>
+    <div class="border-top pt-3">
+        <p class="text-dark small mb-2">
+            <i class="bi bi-tags me-1 text-secondary"></i>
+            <strong>Categoría:</strong> ${producto.categoria ?? '—'}
+        </p>
+        <p class="text-dark small mb-2">
+            <i class="bi bi-truck me-1 text-secondary"></i>
+            <strong>Proveedor:</strong> ${producto.proveedor ?? '—'}
+        </p>
+        <p class="text-dark small mb-0">
+            <i class="bi bi-calendar-event me-1 text-secondary"></i>
+            <strong>Fecha:</strong> ${producto.fecha_vencimiento ?? '—'}
+        </p>
+            </div>
+        </div>
+
+
+        <div class="card-footer bg-light border-0 d-flex justify-content-center gap-2 pb-3">
+    <button class="btn btn-primary btn-sm rounded-pill shadow-sm px-3">
+        <i class="bi bi-eye-fill"></i> Ver
+    </button>
+    <button href="${base_url}edit-producto/${producto.id}" class="btn btn-warning btn-sm rounded-pill shadow-sm px-3 text-dark">
+        <i class="bi bi-pencil-fill"></i> Editar
+    </button>
+    <button class="btn btn-success btn-sm rounded-pill shadow-sm px-3" onclick="agregarAlCarrito(${producto.id})">
+    <i class="bi bi-cart-fill"></i> Añadir
+</button>
+    <button class="btn btn-danger btn-sm rounded-pill shadow-sm px-3" onclick="fn_eliminar(${producto.id})">
+        <i class="bi bi-trash-fill"></i> Borrar
+    </button>
+</div>
+`;
+
+                fila.appendChild(col);
             });
 
-            contenido.appendChild(contenedor);
+            contenido.appendChild(fila);
         } else {
-            contenido.innerHTML = '<p class="text-center text-muted">No hay productos disponibles.</p>';
+            contenido.innerHTML = `
+                <div class="text-center py-5">
+                    <i class="bi bi-box-seam display-4 text-muted"></i>
+                    <h5 class="mt-3 text-muted">No hay productos disponibles</h5>
+                </div>
+            `;
         }
-    } catch (e) {
-        console.log('Error al mostrar productos en tarjetas: ' + e);
+    } catch (error) {
+        console.error("Error al mostrar productos en tarjetas:", error);
+        let contenido = document.getElementById('content_products');
+        if (contenido) {
+            contenido.innerHTML = `
+                <div class="alert alert-danger text-center" role="alert">
+                    Error al cargar los productos. Intente nuevamente más tarde.
+                </div>
+            `;
+        }
     }
 }
+
+if (document.getElementById('content_products')) {
+    view_products_cards();
+}
+
+async function agregarAlCarrito(id_producto) {
+    try {
+        // Crear el cuerpo de la solicitud
+        const datos = new FormData();
+        datos.append('id_producto', id_producto);
+
+        // Enviar al controlador del carrito (debes tener este archivo)
+        let respuesta = await fetch(base_url + 'control/CarritoController.php?tipo=agregar', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+
+        let json = await respuesta.json();
+
+        if (json.status) {
+            Swal.fire({
+                title: "Agregado al carrito 🛒",
+                text: json.msg,
+                icon: "success",
+                timer: 1500,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: json.msg,
+                icon: "error"
+            });
+        }
+
+    } catch (error) {
+        console.error("Error al agregar al carrito:", error);
+        Swal.fire({
+            title: "Error",
+            text: "No se pudo agregar al carrito. Intenta más tarde.",
+            icon: "error"
+        });
+    }
+}
+
+

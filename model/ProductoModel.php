@@ -84,6 +84,5 @@ class ProductoModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
-
-    
+       
 }
