@@ -20,3 +20,4 @@ console.log(productos_venta);
 //splice remueve elementos, inserta nuevo elemento
 productos_venta.splice(id,1);
 console.log(productos_venta);
+

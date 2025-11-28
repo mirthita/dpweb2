@@ -165,5 +165,17 @@ if ($tipo === "actualizar") {
         }
     }
     
-
 }
+    if ($tipo == "buscar_producto_venta") {
+    $dato = $_POST['dato'];
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $productos = $objProducto->buscarProductoByNombreOrCodigo($dato);
+    
+        $respuesta = array('status' => true, 'msg' => '', 'data' => $productos);
+    
+    echo json_encode($respuesta);
+}
+
+    
+
+
