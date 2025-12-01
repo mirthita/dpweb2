@@ -89,7 +89,7 @@ async function view_products() {
                 `;
                 cont++;
                 contenidot.appendChild(nueva_fila);
-                JsBarcode("#barcode" + producto.id, ""+producto.codigo, {width: 2, height: 40});
+                JsBarcode("#barcode" + producto.id, "" + producto.codigo, { width: 2, height: 40 });
             });
             /*json.data.forEach(producto => {
                 JsBarcode("#barcode" + producto.id, producto.codigo, {format: "CODE128", width: 2, height: 40});
@@ -230,11 +230,11 @@ async function listar_productos_venta() {
         contenidot = document.getElementById('productos_venta');
         if (json.status) {
             let cont = 1;
-            contenidot.innerHTML =``;
+            contenidot.innerHTML = ``;
             json.data.forEach(producto => {
                 let producto_list = ``;
                 producto_list += `<div class="card m-2 col-12">
-                                <img src="${base_url+producto.imagen}" alt="" width="100%" height="150px">
+                                <img src="${base_url + producto.imagen}" alt="" width="100%" height="150px">
                                 <p class="card-text">${producto.nombre}</p>
                                 <p>Precio: ${producto.precio}</p>
                                 <p>Stock: ${producto.stock}</p>
@@ -246,6 +246,12 @@ async function listar_productos_venta() {
                 nueva_fila.innerHTML = producto_list;
                 cont++;
                 contenidot.appendChild(nueva_fila);
+                let id = document.getElementById('id_producto_venta');
+                let precio = document.getElementById('producto_precio_venta');
+                let cantidad = document.getElementById('producto_cantidad_venta');
+                id.value = producto.id;
+                precio.value = producto.precio;
+                cantidad.value = 1;
             });
         }
     } catch (e) {

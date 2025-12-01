@@ -1,6 +1,6 @@
 <div class="container">
     <h4 class="mt-3 mb-3">Lista de Productos</h4>
-    <a href="<?php echo BASE_URL; ?>new-provider" class="btn btn-success">Nuevo Producto</a>
+    <a href="<?php echo BASE_URL; ?>new-product" class="btn btn-success">Nuevo Producto</a>
     <a href="<?php echo BASE_URL; ?>ventas" class="btn btn-success">Lista de Productos</a>
     <br><br>  
     <table class="table table-bordered table-striped border-dark">
