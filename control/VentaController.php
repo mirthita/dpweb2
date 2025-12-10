@@ -22,7 +22,5 @@ if ($tipo =="registrarTemporal") {
         $registro = $objVenta->registrar_temporal($id_producto,$precio,$cantidad);
         $respuesta = array('status' => true, 'msg' => 'registrado');
     }
-    echo json_encode($respuesta);
-
-
+    echo json_encode($respuesta); 
 }
