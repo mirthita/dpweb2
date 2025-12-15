@@ -261,3 +261,5 @@ async function listar_productos_venta() {
 if (document.getElementById('content_product_venta')) {
     listar_productos_venta();
 }
+
+

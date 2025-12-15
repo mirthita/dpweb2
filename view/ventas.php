@@ -1,56 +1,53 @@
 <div class="container-fluid mt-4 row">
-    <div class="col-9">
+    <h2>Ventas</h2>
+    <div class="col-8">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Busqueda de Productos</h5>
-                <div class="col-12 mb-3">
-                    <input type="text" id="busqueda_venta" onkeyup="listar_productos_venta();" class="form-control" placeholder="Buscar Producto por codigo o nombre">
+            <div class="card-body row">
+                <h5 class="card-title col-md-4">Busqueda de Productos</h5>
+                <div class="col-md-6">
+                    <input type="text" class="form-control col-md-12" placeholder="buscar producto por codigo o nombre" id="busqueda_venta" onkeyup="listar_productos_venta();">
+                    <input type="hidden" id="id_producto_venta">
+                    <input type="hidden" id="producto_precio_venta">
+                    <input type="hidden" id="producto_cantidad_venta" value="1">
                 </div>
-
-                <input type= "hidden" id="id_producto_venta">
-                <input type= "hidden" id="producto_precio_venta">
-                <input type= "hidden" id="producto_cantidad_venta" value ="1">
-
-
                 <div class="row container-fluid" id="productos_venta">
-
+                    <!--<div class="card m-2 col-3">
+                        <div class="card-body">
+                            <img src="https://www.agenciaeplus.com.br/wp-content/uploads/2021/12/pagina-de-produto.jpg" alt="" width="100%" height="150px">
+                            <p class="card-text">Descripcion del producto</p>
+                            <button class="btn btn-primary">Agregar</button>
+                        </div>
+                    </div>-->
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Lista de Compra</h5>
-                <div class="row" style="min-height: 500px;">
-                    <div class="col-12 table-responsive">
-                        <table class="table">
+                <div class="row" style="min-height: auto;">
+                    <div class="col-12">
+                        <table class="table-responsive table table-hover">
                             <thead>
                                 <tr>
                                     <th>Producto</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio</th>
-                                    <th>Total</th>
-                                    <th>Acciones</th>
+                                    <th>Cant.</th>
+                                    <th>P. Unit.</th>
+                                    <th>SubTotal</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody id="lista_compra">
-                                <tr>
-                                    <td>Producto</td>
-                                    <td>1</td>
-                                    <td>$15.00</td>
-                                    <td>$15.00</td>
-                                    <td><button class="btn btn-danger btn-sm">Eliminar</button></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 text-end">
-                        <h4>Subtotal : <label id="">$20.00</label></h4>
-                        <h4>Igv : <label id="">$20.00</label></h4>
-                        <h4>Total : <label id="">$20.00</label></h4>
+                        <h4>Subtotal : <label id="subtotal_general"></label></h4>
+                        <h4>Igv : <label id="igv_general"></label></h4>
+                        <h4>Total : <label id="total"></label></h4>
                         <button class="btn btn-success">Realizar Venta</button>
                     </div>
                 </div>
@@ -60,12 +57,13 @@
 </div>
 <script src="<?= BASE_URL ?>view/function/product.js"></script>
 <script src="<?= BASE_URL ?>view/function/venta.js"></script>
-<script>listar_productos_venta();</script>
 <script>
     let input = document.getElementById("busqueda_venta");
     input.addEventListener('keydown', (event)=>{
         if (event.key == 'Enter') {
             agregar_producto_temporal();
         }
-    })
+    });
+    listar_temporales();
+    act_subt_general();
 </script>
