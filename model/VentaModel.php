@@ -62,13 +62,13 @@ class VentaModel
     }
 
     //---------------------- VENTAS REGISTRADAS (OFICIALES)----------------
-    public function buscar_ultima_venta(){
+     public function buscar_ultima_venta(){
         $consulta = "SELECT codigo FROM venta ORDER BY id DESC LIMIT 1";
         $sql = $this->conexion->query($consulta);
         return $sql->fetch_object();
     }
-    public function registrar_venta($correlativo, $fecha_hora, $id_cliente, $id_vendedor){
-        $consulta = "INSERT INTO venta (codigo, id_cliente, id_vendedor, fecha_venta) VALUES ('$correlativo', '$id_cliente', '$id_vendedor', '$fecha_hora')";
+    public function registrar_venta($correlativo, $fecha_venta, $id_cliente, $id_vendedor){
+        $consulta = "INSERT INTO venta (codigo, fecha_hora, id_cliente, id_vendedor) VALUES ('$correlativo', '$fecha_venta', '$id_cliente', '$id_vendedor')";
         $sql = $this->conexion->query($consulta);
         if ($sql) {
             return $this->conexion->insert_id;
@@ -80,4 +80,5 @@ class VentaModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
+
 }

@@ -56,11 +56,11 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" modal-lg id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Registro Venta</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de Venta</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -68,7 +68,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="cliente_dni" class="form-label">DNI del Cliente</label>
-                            <input type="text" class="form-control" id="cliente_dni" name="cliente_dni" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11" />
+                            <input type="text" class="form-control" id="cliente_dni" name="cliente_dni" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11">
                         </div>
                         <div class="col-md-6">
                             <button type="button" class="btn btn-primary mt-4" onclick="buscar_cliente_venta();">Buscar Cliente</button>
@@ -76,11 +76,13 @@
                         <div class="col-md-12">
                             <label for="cliente_nombre" class="form-label">Nombre del Cliente</label>
                             <input type="text" class="form-control" id="cliente_nombre" name="cliente_nombre" readonly>
+                            <input type="hidden" class="form-control" id="id_cliente_venta">
                         </div>
-                        <div class="col-md-6">
-                            <label for="fecha_venta" class="form-label">Fecha de Venta</label>
-                            <input type="datetime" class="form-control" id="fecha_venta" name="fecha_venta" value="<?= date ('Y-m-d H:i') ?>">
+                        <div class="col-md-3">
+                            <label for="fecha_venta">fecha de venta</label>
+                            <input type="datetime" class="form-control" id="fecha_venta" name="fecha_venta" value="<?= date('Y-m-d H:i') ?>">
                         </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -90,9 +92,9 @@
         </div>
     </div>
 </div>
-</div>
 <script src="<?= BASE_URL ?>view/function/product.js"></script>
 <script src="<?= BASE_URL ?>view/function/venta.js"></script>
+
 <script>
     let input = document.getElementById("busqueda_venta");
     input.addEventListener('keydown', (event) => {
