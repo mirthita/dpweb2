@@ -77,5 +77,7 @@ if($tipo == "registar_venta"){
     echo json_encode($respuesta);
 }
 
+        
+
  
 
