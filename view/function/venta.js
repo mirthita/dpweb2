@@ -75,13 +75,42 @@ async function listar_temporales() {
                                     <td>S/. ${t_venta.precio}</td>
                                     <td id="subtotal_${t_venta.id}">S/. ${t_venta.cantidad * t_venta.precio}</td>
                                     <td><button class="btn btn-danger btn-sm" onclick="eliminarTemporal(${t_venta.id})">Eliminar</button></td>
-                                </tr>`
+                                </tr>`;
             });
             document.getElementById('lista_compra').innerHTML = lista_temporal;
             act_subt_general();
+        } else {
+            // No temporales: limpiar lista y totales para evitar "producto fantasma"
+            document.getElementById('lista_compra').innerHTML = '';
+            if (document.getElementById('subtotal_general')) document.getElementById('subtotal_general').innerHTML = 'S/. 0.00';
+            if (document.getElementById('igv_general')) document.getElementById('igv_general').innerHTML = 'S/. 0.00';
+            if (document.getElementById('total')) document.getElementById('total').innerHTML = 'S/. 0.00';
         }
     } catch (error) {
         console.log("error al cargar productos temporales " + error);
+    }
+}
+async function eliminarTemporal(id) {
+    try {
+        const datos = new FormData();
+        datos.append('id', id);
+        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=eliminarTemporal', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (!json.status) {
+            alert('Ocurrió un error al eliminar el producto temporal: ' + json.msg);
+            console.log(json.msg);
+            return;
+        }
+        alert('Producto eliminado');
+        listar_temporales();
+        act_subt_general();
+    } catch (error) {
+        console.log('error al eliminar temporal ' + error);
     }
 }
 async function actualizar_subtotal(id, precio) {
@@ -125,6 +154,10 @@ async function act_subt_general() {
             document.getElementById('subtotal_general').innerHTML = 'S/. ' + subtotal_general.toFixed(2);
             document.getElementById('igv_general').innerHTML = 'S/. ' + igv;
             document.getElementById('total').innerHTML = 'S/. ' + total;
+        } else {
+            if (document.getElementById('subtotal_general')) document.getElementById('subtotal_general').innerHTML = 'S/. 0.00';
+            if (document.getElementById('igv_general')) document.getElementById('igv_general').innerHTML = 'S/. 0.00';
+            if (document.getElementById('total')) document.getElementById('total').innerHTML = 'S/. 0.00';
         }
     } catch (error) {
         console.log("error al cargar productos temporales " + error);

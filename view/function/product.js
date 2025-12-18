@@ -17,9 +17,11 @@ async function view_products() {
                             <td>${cont}</td>
                             <td>${producto.codigo}</td>
                             <td>${producto.nombre}</td>
+                            <td>${producto.detalle}</td>
                             <td>${producto.precio}</td>
                             <td>${producto.stock}</td>
                             <td>${producto.categoria}</td>
+                            <td>${producto.proveedor}</td>
                             <td>${producto.fecha_vencimiento}</td>
                             <td><svg id="barcode${producto.id}"></svg></td>
                             <td>
